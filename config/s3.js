@@ -13,25 +13,15 @@ const s3 = new S3({
   secretAccessKey,
 });
 
-module.exports = function uploadfile(file) {
-  console.log("this si uploadfile");
-  const fileContent = fs.createReadStream(file);
-  //   const fileContent = fs.readFileSync(file);
+module.exports = function uploadfile(path, imgId) {
+  const fileContent = fs.createReadStream(path);
 
   const uploadParams = {
     Bucket: bucketName,
     Body: fileContent,
-    Key: "image.jpg",
+    Key: imgId,
     ContentType: "image/JPG",
   };
 
-  s3.upload(uploadParams, (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(data);
-      console.log("file uploaded" + data.Location);
-    }
-  });
-  //   return s3.upload(uploadParams).promise();
+  return s3.upload(uploadParams).promise();
 };
