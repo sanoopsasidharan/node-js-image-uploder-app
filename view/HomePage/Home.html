@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+    <title>Hello, world!</title>
+ <style>
+.mainContainer{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(205,218,237);
+}
+.file-uploadDiv{
+    background-color: rgb(255,255,255);
+    height: 50%;
+    width: 40%;
+    border-radius: 16px;
+}
+ </style>   
+ <style>
+    .preview {
+        overflow: hidden;
+        width: 160px;
+        height: 160px;
+        margin: 10px;
+        border: 1px solid red;
+    }
+    .modal-lg {
+        max-width: 1000px !important;
+    }
+</style> 
+  </head>
+  <body>
+
+    <div class="mainContainer">
+        <div class="file-uploadDiv">
+            <div>
+                <h3>file upload</h3>
+                <form action="/" enctype="multipart/form-data" method="post">
+                             <input type="text" name="fname" /><br />
+                             <input type="number" name="age" /><br />
+                             <input type="file" name="photo" /><br />
+                             <!-- cropper image1 -->
+                <div class="col-md-2 col-sm-2">
+                    <!-- <h4 class="title"> Image 1</h4> -->
+                    <div class="fileinput fileinput-new text-center">
+                        <div class="fileinput-new thumbnail">
+                            <img style="width: 70px;" src="" id="chekPreview1">
+
+                        </div>
+                        <div>
+                            <span class="btn btn-rose btn-round btn-file">
+                                <!-- <span class="fileinput-new">Select image</span> -->
+                                <input type="file" onchange="show1(this)"
+                                    id="image1" required />
+                                <textarea name="image1" id="imageValue1" cols="30"
+                                    rows="10" hidden></textarea>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                             <button>Save</button>
+                         </form>
+            </div>
+            <div class="mb-3">
+
+
+
+                
+                <!-- cropper image 2 -->
+
+                
+                
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
+
+</body>
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+<script src="https://kit.fontawesome.com/4f9ff9a3d7.js" crossorigin="anonymous"></script>
+<!-- Material Dashboard CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://unpkg.com/dropzone/dist/dropzone.css" />
+<link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet" />
+
+<script src="https://unpkg.com/dropzone"></script>
+<script src="https://unpkg.com/cropperjs"></script>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+
+
+
+
+
+<script>
+    $('document').ready(function () {
+        //modal1 and image 1
+        var image1 = document.getElementById('sampleImage1');
+        var modal1 = $('#modal1');
+        var cropper1;
+        $('#image1').change(function (event) {
+            var files = event.target.files;
+            var done = function (url) {
+                image1.src = url;
+                modal1.modal('show');
+            };
+            if (files && files.length > 0) {
+                reader = new FileReader();
+                reader.onload = function (event) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(files[0]);
+            }
+        });
+        modal1.on('shown.bs.modal', function () {
+            cropper1 = new Cropper(image1, {
+                aspectRatio: 7 / 8,
+                viewMode: 1,
+                preview: '#preview1'
+            });
+        }).on('hidden.bs.modal', function () {
+            cropper1.destroy();
+            cropper1 = null;
+        });
+        $('#crop1').click(function () {
+            canvas = cropper1.getCroppedCanvas({
+                minWidth: 256,
+                minHeight: 256,
+                maxWidth: 4096,
+                maxHeight: 4096,
+                fillColor: '#fff',
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high',
+            });
+            canvas.toBlob(function (blob) {
+                url = URL.createObjectURL(blob);
+                var reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onloadend = function () {
+                    var base64data = reader.result;
+                    modal1.modal('hide');
+                    $("#imageValue1").val(base64data)
+                    $('#chekPreview1').attr('src', base64data);
+                };
+            });
+        });
+      
+    });
+</script>
+
+<script>
+    function show1(input) {
+        debugger;
+        var validExtensions = ['jpg', 'png'];
+        var fileName = input.files[0].name;
+        var fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1);
+        if ($.inArray(fileNameExt, validExtensions) == -1) {
+            input.type = ''
+            input.type = 'file'
+            $('#chekPreview1').attr('src', "");
+            Swal.fire(
+                '',
+                'Only these file types are accepted  ' + validExtensions.join(', '),
+                'question'
+            )
+            // alert("Only these file types are accepted : " + validExtensions.join(', '));
+        }
+        else {
+            if (input.files && input.files[0]) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $('#chekPreview1').attr('src', e.target.result);
+                }
+                imagevalidation = true
+                $("#image-text").hide();
+                filerdr.readAsDataURL(input.files[0]);
+            }
+        }
+    }
+   
+   
+</script>
+
+
+
+
+
+
+
+  </body>
+</html>

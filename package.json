@@ -18,7 +18,11 @@
   },
   "homepage": "https://github.com/sanoopsasidharan/node-js-image-uploder-app#readme",
   "dependencies": {
+    "aws-sdk": "^2.1128.0",
     "dotenv": "^16.0.0",
-    "nodemon": "^2.0.16"
+    "formidable": "^2.0.1",
+    "multer": "^1.4.4",
+    "nodemon": "^2.0.16",
+    "uuid": "^8.3.2"
   }
 }
