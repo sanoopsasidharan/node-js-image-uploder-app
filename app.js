@@ -68,12 +68,13 @@ const server = http.createServer((req, res) => {
     });
   } else if (url === "/image" && method === "POST") {
     console.log("this is the /image post req");
+    res.writeHead(200, coresAllows);
     let body = "";
     req.on("data", (chunk) => {
       body += chunk.toString();
     });
     req.on("end", async () => {
-      const { image } = parse(body);
+      const { name, image } = parse(body);
       const imgId = uuidv4();
       let path1 = `./uploads/${imgId}.jpg`;
       let img1 = image.replace(/^data:([A-Za-z+/]+);base64,/, "");
@@ -82,7 +83,7 @@ const server = http.createServer((req, res) => {
       console.log(result.Location);
       const imgUrl = result.Location;
       await unlinkFile(path1);
-      const name = "sanoop";
+      // const name = "sanoop";
       const addingRes = await uploadingImg(name, imgUrl);
       console.log(addingRes);
       res.end("ok");
