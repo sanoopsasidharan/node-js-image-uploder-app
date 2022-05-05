@@ -5,19 +5,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .mainContainer{
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(205,218,237);
+        }
+        .file-uploadDiv{
+            background-color: rgb(255,255,255);
+            height: 50%;
+            width: 40%;
+            border-radius: 8px;
+        }
+         </style>  
 </head>
 <body>
-    <img src="data:image/jpeg;base64,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" id="img" >
-    <textarea id="result" cols="50" rows="25"></textarea>
+   
 
 
 
-    <input id="inputFileToLoad" type="file" onchange="encodeImageFileAsURL();" />
-<div id="imgTest"></div>
-<form action="/image" method="post">
-    <input name="image" style="height: 400px; width: 100%;" type="text" id="inputType">
-    <button>sub</button>
-</form>
+    <div class="mainContainer">
+        <div class="file-uploadDiv">
+            <div>
+                <h3>file upload</h3>
+                <input id="inputFileToLoad" type="file" onchange="encodeImageFileAsURL();" />
+              <div id="imgTest"></div>
+
+              <form action="/image" method="post">
+                <input name="image" type="text" id="inputType">
+                <button>sub</button>
+            </form>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         var img = document.getElementById('img')
