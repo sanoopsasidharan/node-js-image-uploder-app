@@ -86,7 +86,10 @@ const server = http.createServer((req, res) => {
       // const name = "sanoop";
       const addingRes = await uploadingImg(name, imgUrl);
       console.log(addingRes);
-      res.end("ok");
+      res.writeHead(200, {
+        "Content-Type": "text/plain",
+      });
+      res.end(JSON.stringify({ message: "uploaded file" }));
     });
   } else {
     // fs.readFile("Error.html", (err, data) => {
